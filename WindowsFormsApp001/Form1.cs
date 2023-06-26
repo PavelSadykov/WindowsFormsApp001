@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Emit;
@@ -21,11 +22,13 @@ namespace WindowsFormsApp001
             this.ClientSize = new System.Drawing.Size(800, 400);
             this.Font = new Font(this.Font.FontFamily, 12);
 
-            
-            // Установка зеленого цвета для формы
+            //Привязка обработчика событий к кнопке сохранения
+            button5.Click += button5_Click;
+
+            // Установка  цвета для формы
             this.BackColor = Color.Chocolate;
             
-            // Установка зеленого цвета для кнопок
+            // Установка  цвета для кнопок
             button1.BackColor = Color.LightBlue;
             button2.BackColor = Color.Green;
             button4.BackColor = Color.Yellow;
@@ -150,6 +153,41 @@ namespace WindowsFormsApp001
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        // Кнопка сохранения
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string result = textBox3.Text; // Получение результата из поля вывода
+
+            // Открытие диалогового окна сохранения файла
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = saveFileDialog.FileName;
+
+                try
+                {
+                    // Сохранение результата в текстовый файл
+                    using (StreamWriter writer = new StreamWriter(fileName))
+                    {
+                        writer.WriteLine(result);
+                    }
+
+                    // Информирование пользователя о результате сохранения
+                    label4.Text = "Результат сохранен в файл: " + fileName;
+                }
+                catch (Exception ex)
+                {
+                    // Обработка ошибки сохранения
+                    MessageBox.Show("Ошибка при сохранении файла: " + ex.Message);
+                }
+            }
+        }
+        // Результат сохранения
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }
